@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-box">
+        <form method="post">
+            {% csrf_token %}
+            <h2>Login</h2>
+            <label>Username:<input type="text" name="username" required></label><br>
+            <label>Password:<input type="password" name="password" required></label><br>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign-up</a></p>
+            <p>Forgot password? <a href="{% url 'password_reset' %}">Change Password</a></p>
+        </form>
+        <div class="divider"></div>
+        <div class="oauth">
+            <a href="{% provider_login_url 'google' %}">Login with Google</a><br>
+            <a href="{% provider_login_url 'github' %}">Login with GitHub</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

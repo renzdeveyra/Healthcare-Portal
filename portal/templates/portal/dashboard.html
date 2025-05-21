@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Your Health Dashboard</h1>
+    
+    <div class="dashboard-grid">
+        <div class="dashboard-card health-profile">
+            <h2>Health Profile</h2>
+            {% if health_profile %}
+                <div class="profile-details">
+                    <p><strong>Age:</strong> {% if health_profile.age %}{{ health_profile.age }}{% else %}Not provided{% endif %}</p>
+                    <p><strong>Height:</strong> {% if health_profile.height %}{{ health_profile.height }} cm{% else %}Not provided{% endif %}</p>
+                    <p><strong>Weight:</strong> {% if health_profile.weight %}{{ health_profile.weight }} kg{% else %}Not provided{% endif %}</p>
+                    
+                    <h3>Medical Conditions</h3>
+                    {% if health_profile.conditions.all %}
+                        <ul>
+                            {% for condition in health_profile.conditions.all %}
+                                <li>{{ condition.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No medical conditions recorded.</p>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>No health profile information available.</p>
+            {% endif %}
+            
+            <a href="{% url 'health_profile' %}" class="btn btn-primary">Update Health Profile</a>
+        </div>
+        
+        <div class="dashboard-card recommendations">
+            <h2>AI Recommendations</h2>
+            {% if recommendations %}
+                <div class="recommendation-list">
+                    {% for rec in recommendations %}
+                        <div class="recommendation-item">
+                            <h3>{{ rec.treatment.name }}</h3>
+                            <p><strong>For:</strong> {{ rec.condition.name }}</p>
+                            <p>{{ rec.treatment.description|truncatewords:20 }}</p>
+                            <div class="recommendation-score">
+                                <div class="score-bar" style="width: {{ rec.score|floatformat:2|multiply:100 }}%"></div>
+                                <span>{{ rec.score|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'recommendations' %}" class="btn btn-secondary">View All Recommendations</a>
+            {% else %}
+                <p>No recommendations available. Please update your health profile to get personalized recommendations.</p>
+                <a href="{% url 'health_profile' %}" class="btn btn-primary">Update Health Profile</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Custom filter to multiply a value by a factor
+    function multiply(value, factor) {
+        return value * factor;
+    }
+</script>
+{% endblock %}
