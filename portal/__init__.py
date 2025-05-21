@@ -1,1 +1,1 @@
-from .views import *
+# This file should be completely empty
