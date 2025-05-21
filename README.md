@@ -29,7 +29,7 @@ A comprehensive healthcare portal with AI-powered treatment recommendations, sec
 - **Authentication**: django-allauth, django-otp
 - **Database**: SQLite (development), PostgreSQL (production)
 - **AI/ML**: scikit-learn, pandas, numpy
-- **Deployment**: Railway
+- **Deployment**: Render (free tier)
 
 ## Local Development Setup
 
@@ -107,47 +107,38 @@ A comprehensive healthcare portal with AI-powered treatment recommendations, sec
    - Authorized redirect URIs: http://127.0.0.1:8000/accounts/google/login/callback/
 7. Copy the Client ID and Client Secret to your `.env` file
 
-## Deployment on Railway
+## Deployment on Render
 
-This application is configured for easy deployment on Railway.
+This application is configured for easy deployment on Render's free tier.
 
-1. Create a Railway account: https://railway.app/
-2. Install the Railway CLI:
-   ```bash
-   npm i -g @railway/cli
-   ```
+1. Create a Render account: https://render.com/
+2. Fork this repository to your GitHub account
+3. In the Render dashboard, click "New +" and select "Blueprint"
+4. Connect your GitHub account and select your forked repository
+5. Render will automatically detect the `render.yaml` configuration file
+6. Click "Apply" to create the web service and database
 
-3. Login to Railway:
-   ```bash
-   railway login
-   ```
+The deployment will automatically:
+- Create a PostgreSQL database
+- Build and deploy your Django application
+- Set up environment variables
+- Configure HTTPS
 
-4. Initialize a new Railway project:
-   ```bash
-   railway init
-   ```
+### Important Notes for Render Free Tier
 
-5. Add a PostgreSQL database:
-   ```bash
-   railway add
-   ```
-   Select PostgreSQL from the options.
+- The free PostgreSQL database will be deleted after 90 days. You'll need to backup your data before then.
+- The free web service will spin down after 15 minutes of inactivity, causing a delay on the first request after inactivity.
+- You'll need to manually set these environment variables in the Render dashboard:
+  - GITHUB_CLIENT_ID
+  - GITHUB_CLIENT_SECRET
+  - GOOGLE_CLIENT_ID
+  - GOOGLE_CLIENT_SECRET
 
-6. Set up environment variables in the Railway dashboard:
-   - SECRET_KEY
-   - DEBUG=False
-   - ALLOWED_HOSTS=your-railway-domain.up.railway.app
-   - GITHUB_CLIENT_ID
-   - GITHUB_CLIENT_SECRET
-   - GOOGLE_CLIENT_ID
-   - GOOGLE_CLIENT_SECRET
+### Update OAuth Callback URLs
 
-7. Deploy the application:
-   ```bash
-   railway up
-   ```
-
-8. Update OAuth callback URLs in GitHub and Google developer settings to use your Railway domain.
+After deployment, update your OAuth callback URLs in GitHub and Google developer settings to use your Render domain:
+- GitHub: https://your-app-name.onrender.com/accounts/github/login/callback/
+- Google: https://your-app-name.onrender.com/accounts/google/login/callback/
 
 ## AI Recommender System
 
@@ -175,4 +166,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Django and the Django community
 - scikit-learn for machine learning capabilities
-- Railway for deployment infrastructure
+- Render for free tier hosting
