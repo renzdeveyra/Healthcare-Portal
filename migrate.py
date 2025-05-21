@@ -28,6 +28,10 @@ def setup_site():
         # Get the hostname from environment or use default
         hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'healthcare-portal.onrender.com')
         
+        # Make sure we're using the full domain without 'https://'
+        if hostname.startswith('https://'):
+            hostname = hostname[8:]
+        
         # Update site details
         site.domain = hostname
         site.name = 'Healthcare Portal'
@@ -52,3 +56,5 @@ if __name__ == '__main__':
         
     except OperationalError:
         print("Database unavailable, skipping migrations")
+
+

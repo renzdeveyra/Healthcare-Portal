@@ -189,15 +189,15 @@ else:
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'APP': {
-            'client_id': os.environ.get('GITHUB_CLIENT_ID', 'Ov23liUEEgMuPLkc5OQB'),
-            'secret': os.environ.get('GITHUB_CLIENT_SECRET', 'cb18d88756dcc7b3fe87828085de0322ee587689'),
+            'client_id': os.environ.get('GITHUB_CLIENT_ID'),
+            'secret': os.environ.get('GITHUB_CLIENT_SECRET'),
             'key': ''
         }
     },
     'google': {
         'APP': {
-            'client_id': os.environ.get('GOOGLE_CLIENT_ID', 'your-google-client-id'),
-            'secret': os.environ.get('GOOGLE_CLIENT_SECRET', 'your-google-client-secret'),
+            'client_id': os.environ.get('GOOGLE_CLIENT_ID'),
+            'secret': os.environ.get('GOOGLE_CLIENT_SECRET'),
             'key': ''
         },
         'SCOPE': [
