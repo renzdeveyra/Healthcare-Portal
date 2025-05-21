@@ -214,3 +214,16 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Memory optimization for Render
+if not DEBUG:
+    # Disable persistent connections in production
+    DATABASES['default']['CONN_MAX_AGE'] = 0
+    
+    # Reduce template caching
+    TEMPLATES[0]['OPTIONS']['loaders'] = [
+        ('django.template.loaders.cached.Loader', [
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ]),
+    ]
