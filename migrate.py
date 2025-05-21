@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 import os
 import sys
+
+# Set up Django environment first
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'healthcareportal.settings')
+
+# Then import Django and other modules
 import django
+django.setup()
+
 from django.contrib.sites.models import Site
 from django.db import connections
 from django.db.utils import OperationalError
-
-# Set up Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'healthcareportal.settings')
-django.setup()
+from django.core.management import call_command
 
 def run_migrations():
     """Run database migrations"""
-    from django.core.management import call_command
     call_command('migrate')
     print("Migrations completed successfully")
 
