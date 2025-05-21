@@ -84,7 +84,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'healthcareportal' / 'templates'],
-        'APP_DIRS': True,
+        'APP_DIRS': True,  # Keep this for development
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -227,9 +227,6 @@ if not DEBUG:
     DATABASES['default']['CONN_MAX_AGE'] = 0
     
     # Reduce template caching
-    TEMPLATES[0]['OPTIONS']['loaders'] = [
-        ('django.template.loaders.cached.Loader', [
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-        ]),
-    ]
+    TEMPLATES[0]['APP_DIRS'] = True
+    if 'loaders' in TEMPLATES[0]['OPTIONS']:
+        del TEMPLATES[0]['OPTIONS']['loaders']
