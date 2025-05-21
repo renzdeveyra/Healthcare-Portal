@@ -6,6 +6,7 @@ from .recommender import recommender
 from .forms import UserHealthForm
 from django.views.decorators.http import require_POST
 import json
+import os
 
 def home_view(request):
     """Home page view"""
@@ -51,8 +52,13 @@ def health_profile_view(request):
 @login_required
 def recommendations_view(request):
     """View all recommendations"""
-    # Get recommendations
-    recommendations = recommender.get_recommendations(request.user.id, top_n=10)
+    # Temporary fix for Render free tier memory limitations
+    if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+        # Return empty recommendations for now
+        recommendations = []
+    else:
+        # Only run recommender locally
+        recommendations = recommender.get_recommendations(request.user.id, top_n=10)
 
     return render(request, 'portal/recommendations.html', {
         'recommendations': recommendations
