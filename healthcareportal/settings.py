@@ -179,6 +179,12 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
+# Get the site domain from environment variable if available
+if RENDER_EXTERNAL_HOSTNAME:
+    SITE_DOMAIN = RENDER_EXTERNAL_HOSTNAME
+else:
+    SITE_DOMAIN = 'localhost:8000'
+
 # OAuth Configuration
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
